@@ -8,22 +8,22 @@ const forcast = (lat, long, callback) => {
     long +
     "?units=si";
 
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json: true }, (error, {body}) => {
     if (error) {
       callback("Unable to connect to weather service");
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback("Unable to forcast for this location");
     } else {
       callback(
         undefined,
-        response.body.daily.data[0].summary +
+        body.daily.data[0].summary +
           "\n" +
           "It is currently " +
-          response.body.currently.temperature +
+          body.currently.temperature +
           " degrees out." +
           "\n" +
           "There is a " +
-          response.body.currently.precipProbability +
+          body.currently.precipProbability +
           "% chance of rain."
       );
     }
